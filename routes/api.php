@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiAuthorController;
 use App\Http\Controllers\ApiBookController;
+use App\Http\Controllers\ApiLocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('books', ApiBookController::class);
     Route::apiResource('authors', ApiAuthorController::class);
+    Route::apiResource('locations', ApiLocationController::class);
 });
 
 Route::post("login",[UserController::class,'index']);

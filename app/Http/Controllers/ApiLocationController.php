@@ -12,7 +12,8 @@ class ApiLocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::all();
+        return response()->json($locations);
     }
 
     /**
@@ -20,7 +21,13 @@ class ApiLocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'location_description' => 'required|string',
+        ]);
+
+        $location = Location::create($data);
+
+        return response()->json($location, 201);
     }
 
     /**
@@ -28,7 +35,11 @@ class ApiLocationController extends Controller
      */
     public function show(Location $location)
     {
-        //
+        if (!$location) {
+            return response()->json(['message' => 'Ubicación no encontrada'], 404);
+        }
+
+        return response()->json($location);
     }
 
     /**
@@ -36,7 +47,17 @@ class ApiLocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        //
+        if (!$location) {
+            return response()->json(['message' => 'Ubicación no encontrada'], 404);
+        }
+
+        $data = $request->validate([
+            'location_description' => 'required|string',
+        ]);
+
+        $location->update($data);
+
+        return response()->json($location);
     }
 
     /**
@@ -44,6 +65,8 @@ class ApiLocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+
+        return response()->json(['message' => 'Ubicación eliminada']);
     }
 }
