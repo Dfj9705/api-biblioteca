@@ -12,7 +12,8 @@ class ApiPublisherController extends Controller
      */
     public function index()
     {
-        //
+        $publishers = Publisher::all();
+        return response()->json($publishers);
     }
 
     /**
@@ -20,7 +21,13 @@ class ApiPublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'publisher_name' => 'required|string',
+        ]);
+
+        $publisher = Publisher::create($data);
+
+        return response()->json($publisher, 201);
     }
 
     /**
@@ -28,7 +35,11 @@ class ApiPublisherController extends Controller
      */
     public function show(Publisher $publisher)
     {
-        //
+        if (!$publisher) {
+            return response()->json(['message' => 'Publisher no encontrado'], 404);
+        }
+
+        return response()->json($publisher);
     }
 
     /**
@@ -36,7 +47,17 @@ class ApiPublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        //
+        if (!$publisher) {
+            return response()->json(['message' => 'Publisher no encontrado'], 404);
+        }
+
+        $data = $request->validate([
+            'publisher_name' => 'required|string',
+        ]);
+
+        $publisher->update($data);
+
+        return response()->json($publisher);
     }
 
     /**
@@ -44,6 +65,9 @@ class ApiPublisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
-        //
+        $publisher->delete();
+
+        return response()->json(['message' => 'Publisher eliminado']);
     }
 }
+
