@@ -12,7 +12,8 @@ class ApiLoanController extends Controller
      */
     public function index()
     {
-        //
+        $loans = Loan::with('book.publisher', 'book.location', 'book.author')->get();;
+        return response()->json($loans);
     }
 
     /**
@@ -20,7 +21,17 @@ class ApiLoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'isbn' => 'required|integer|exists:books,isbn',
+            'loan_date' => 'required|date_format:Y-m-d H:i',
+            'due_date' => 'required|date_format:Y-m-d H:i',
+            'return_date' => 'required|date_format:Y-m-d H:i',
+        ]);
+
+        $loan = Loan::create($data);
+
+        return response()->json($loan, 201);
     }
 
     /**

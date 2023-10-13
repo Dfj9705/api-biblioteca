@@ -24,11 +24,11 @@ class ApiBookController extends Controller
         $data = $request->validate([
             'isbn'=> 'required|string|size:13',
             'title'=> 'required|string',
-            'author_id'=> 'required|string|exists:authors,id',
-            'publisher_id'=> 'required|string|exists:publishers,id',
+            'author_id'=> 'required|integer|exists:authors,id',
+            'publisher_id'=> 'required|integer|exists:publishers,id',
             'publication_year'=> 'required|integer|date_format:Y',
             'available_copies'=> 'required|integer',
-            'location_id'=> 'required|string|exists:locations,id',
+            'location_id'=> 'required|integer|exists:locations,id',
         ]);
 
         $book = Book::create($data);
@@ -62,11 +62,11 @@ class ApiBookController extends Controller
         $data = $request->validate([
             'isbn'=> 'required|string|size:13',
             'title'=> 'required|string',
-            'author_id'=> 'required|string|exists:authors,id',
-            'publisher_id'=> 'required|string|exists:publishers,id',
+            'author_id'=> 'required|integer|exists:authors,id',
+            'publisher_id'=> 'required|integer|exists:publishers,id',
             'publication_year'=> 'required|integer|date_format:Y',
             'available_copies'=> 'required|integer',
-            'location_id'=> 'required|string|exists:locations,id',
+            'location_id'=> 'required|integer|exists:locations,id',
         ]);
 
         $book->update($data);
